@@ -1,5 +1,12 @@
 #!/bin/bash
 
+#-------------------------------------------------------------------------------
+# The script requires you to manually grab the cookie named `session` for
+# the `adventofcode.com` domain from a currently logged-in browser (or CLI)
+# session and store it in a file called `session.cookie` in the same directory
+# as this script.
+#-------------------------------------------------------------------------------
+SESSION_COOKIE_NAME=session
 SESSION_COOKIE_FILE=./session.cookie
 
 NUM=${1:-0}
@@ -16,12 +23,12 @@ fi
 
 URL=https://adventofcode.com/2020/day/${NUM}/input
 OUTPUT_FILE=${NUM}.in
-SESSION_COOKIE="Cookie: session=$(cat ${SESSION_COOKIE_FILE})"
+SESSION_COOKIE_HEADER="Cookie: ${SESSION_COOKIE_NAME}=$(cat ${SESSION_COOKIE_FILE})"
 
 #-------------------------------------------------------------------------------
 # Verify we can GET file
 #-------------------------------------------------------------------------------
-IS_VALID=( curl -I -s -H "${SESSION_COOKIE}" "${URL}")
+IS_VALID=( curl -I -s -H "${SESSION_COOKIE_HEADER}" "${URL}")
 echo -e "Running curl:\n  ${IS_VALID[@]}"
 echo
 "${IS_VALID[@]}" | head -n1 | grep -q 200
@@ -33,7 +40,7 @@ fi
 #-------------------------------------------------------------------------------
 # Now GET the file
 #-------------------------------------------------------------------------------
-GET_INPUT_FILE=( curl -o "${OUTPUT_FILE}" -H "${SESSION_COOKIE}" "${URL}" )
+GET_INPUT_FILE=( curl -o "${OUTPUT_FILE}" -H "${SESSION_COOKIE_HEADER}" "${URL}" )
 echo -e "Running curl:\n  ${GET_INPUT_FILE[@]}"
 echo
 "${GET_INPUT_FILE[@]}"
