@@ -39,6 +39,17 @@ def main():
     results.append(process_line(line))
 
   print(max(results))
-
+  sorted = results.sort()
+  last = results[0]
+  for i, curr in enumerate(results):
+    if i == 0:
+      last = curr
+      continue
+    if curr != (last + 1):
+      print(curr)
+      break
+    else:
+      last = curr
+      continue
 if __name__ == '__main__':
   main()
