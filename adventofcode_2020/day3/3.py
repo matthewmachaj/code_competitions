@@ -3,8 +3,8 @@
 import sys
 from functools import reduce
 
-INPUT_FILE = '3.in'
-#INPUT_FILE = 'test.in'
+INPUT_FILE = 'example.in'
+INPUT_FILE = 'unique.in'
 
 def LOG(msg, level="INFO"):
   print(msg)
