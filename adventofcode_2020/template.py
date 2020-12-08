@@ -3,23 +3,26 @@
 import sys
 import re
 
-from advent import AdventInputFileParser, AdventLineParser, LOG
+from advent import LOG
+from advent import AdventInputFileParser
+from advent import AdventLineParser
+from advent import AdventParsedLineSummarizer
 
 #-------------------------------------------------------------------------------
 # Part #1: LineParser Subclass
 #-------------------------------------------------------------------------------
 class PartOneLineParser(AdventLineParser):
 
-    def parse_line(self, line):
-      pass
+  def parse_line(self, line):
+    pass
 
 #-------------------------------------------------------------------------------
 # Part #2: LineParser Subclass
 #-------------------------------------------------------------------------------
 class PartTwoLineParser(AdventLineParser):
 
-    def parse_line(self, line):
-      pass
+  def parse_line(self, line):
+    pass
 
 #-------------------------------------------------------------------------------
 # MAIN()
@@ -36,11 +39,16 @@ def main():
     print(ERROR_MSG)
     sys.exit(1)
 
-  input_file = sys.argv[2]
-  part_class_type = PartOneLineParser if part_to_run == "1" else PartTwoLineParser
+  INPUT_FILE = sys.argv[2]
+  PART_PARSER = PartOneLineParser() if part_to_run == "1" else PartTwoLineParser()
 
-  input_parser = AdventInputFileParser(input_file, "\n", part_class_type)
-  print(f"\nFINAL Count: [{input_parser.get_total()}]")
+  #input_parser = AdventInputFileParser(PART_PARSER, AdventInputFileParser.ONE_LINE_PER_OBJ)
+  #input_parser = AdventInputFileParser(PART_PARSER, AdventInputFileParser.MULTI_LINE_PER_OBJ)
+  parsed_objs = input_parser.parse_file(INPUT_FILE)
+
+  summarizer = AdventParsedLineSummarizer()
+  final_count = summarizer.get_total(parsed_objs)
+  print(f"\nFINAL Count: [{final_count}]")
 
 
 if __name__ == '__main__':
