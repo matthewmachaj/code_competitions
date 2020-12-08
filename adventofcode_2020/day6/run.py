@@ -26,8 +26,24 @@ class PartOneLineParser(AdventLineParser):
 #-------------------------------------------------------------------------------
 class PartTwoLineParser(AdventLineParser):
 
+  def letter_set(self, line):
+    print(f"  LINE: {line}")
+    letter_set = set()
+    for letter in line:
+      letter_set.add(letter)
+    return letter_set
+
   def parse_line(self, line):
-    pass
+    print(f"[NEW Group]")
+    letter_sets = []
+    for line in line.strip("\n").split("\n"):
+      letter_sets.append(self.letter_set(line))
+    print(f"  Leter sets: {letter_sets}")
+
+    intersection = set.intersection(*letter_sets)
+    print(f"  Intersection: {intersection}")
+    print(f"  Length Intersection: [{len(intersection)}]")
+    return len(intersection)
 
 #-------------------------------------------------------------------------------
 # MAIN()
