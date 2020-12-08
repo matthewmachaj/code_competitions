@@ -77,9 +77,9 @@ def main():
     sys.exit(1)
 
   INPUT_FILE = sys.argv[2]
-  PART_CLASS_TYPE = PartOneLineParser if part_to_run == "1" else PartTwoLineParser
+  PART_PARSER = PartOneLineParser() if part_to_run == "1" else PartTwoLineParser()
 
-  input_parser = AdventInputFileParser(PART_CLASS_TYPE, AdventInputFileParser.ONE_LINE_PER_OBJ)
+  input_parser = AdventInputFileParser(PART_PARSER, AdventInputFileParser.ONE_LINE_PER_OBJ)
   parsed_objs = input_parser.parse_file(INPUT_FILE)
 
   summarizer = AdventParsedLineSummarizer()

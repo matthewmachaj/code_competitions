@@ -46,7 +46,7 @@ def main():
   for line in input:
     results.append(process_line(line))
 
-  print(max(results))
+  print(f"max(results) = {max(results)}")
   sorted = results.sort()
   last = results[0]
   for i, curr in enumerate(results):
@@ -54,7 +54,7 @@ def main():
       last = curr
       continue
     if curr != (last + 1):
-      print(curr)
+      print(f"Seat # != (last + 1) => [{curr}]")
       break
     else:
       last = curr
@@ -62,3 +62,4 @@ def main():
 
 if __name__ == '__main__':
   main()
+
