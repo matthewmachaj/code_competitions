@@ -15,9 +15,9 @@ class AdventInputFileParser:
   ONE_LINE_PER_OBJ = 1000
   MULTI_LINE_PER_OBJ = 2000
 
-  def __init__(self, line_parser_type, delimiter_type):
+  def __init__(self, line_parser, delimiter_type):
     self.delimiter_type = delimiter_type
-    self.line_parser_type = line_parser_type
+    self.line_parser = line_parser
 
   def parse_file(self, input_file):
     parsed_objects = []
@@ -26,8 +26,7 @@ class AdventInputFileParser:
 
       if self.delimiter_type == self.ONE_LINE_PER_OBJ:
         for line in input:
-          parser = self.line_parser_type()
-          parsed_objects.append(parser.parse_line(line))
+          parsed_objects.append(self.line_parser.parse_line(line))
 
       elif self.delimiter_type == self.MULTI_LINE_PER_OBJ:
         line_data = ""
@@ -35,8 +34,7 @@ class AdventInputFileParser:
           if line != "\n":
             line_data += line
           else:
-            parser = self.line_parser_type()
-            parsed_objects.append(parser.parse_line(line_data))
+            parsed_objects.append(self.line_parser.parse_line(line_data))
             line_data = ""
 
     return parsed_objects

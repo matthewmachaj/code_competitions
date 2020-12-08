@@ -3,36 +3,11 @@
 import sys
 import re
 
-INPUT_FILE = '4.in.test'
-INPUT_FILE = '4.in'
-#INPUT_FILE = '4.part2.test.in'
+from advent import AdventInputFileParser
+from advent import AdventLineParser
+from advent import AdventParsedLineSummarizer
+from advent import LOG
 
-LOG_LEVEL = "INFO"
-
-def LOG(msg, level="INFO"):
-  level = LOG_LEVEL
-
-  if level == "DEBUG":
-    print(f"DBG: {msg}")
-
-#-------------------------------------------------------------------------------
-# Helpers
-#-------------------------------------------------------------------------------
-
-def read_passports(input_file):
-    passports = []
-    with open(input_file) as input:
-      passport_data = ""
-      for line in input:
-        if line != "\n":
-          LOG(line)
-          passport_data += line
-        else:
-          p = Passport(passport_data)
-          passports.append(p)
-          passport_data = ""
-      passports.append(Passport(passport_data))
-    return passports
 
 class Passport:
 
@@ -45,8 +20,6 @@ class Passport:
     field_list = [f.split(":") for f in field_list]
     return dict(field_list)
 
-    LOG(f"Fields Dict: {self.fields}")
-
   # byr (Birth Year) - four digits; at least 1920 and at most 2002.
   # iyr (Issue Year) - four digits; at least 2010 and at most 2020.
   # eyr (Expiration Year) - four digits; at least 2020 and at most 2030.
@@ -57,7 +30,6 @@ class Passport:
   # ecl (Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
   # pid (Passport ID) - a nine-digit number, including leading zeroes.
   # cid (Country ID) - ignored, missing or not.
-
   def is_valid(self):
     num_keys = len(self.fields.keys())
     keys = self.fields.keys()
@@ -144,24 +116,57 @@ class Passport:
       bad_field += ",pid"
       ret_val = False
 
-
-  #  print(f"Returning -> {ret_val} : {bad_field}")
+    LOG(f"Returning -> {ret_val} : {bad_field}")
     return ret_val
 
   def __str__(self):
     return f"[PASSPORT]\n{self.data}"
 
 #-------------------------------------------------------------------------------
+# Part #1: LineParser Subclass
+#-------------------------------------------------------------------------------
+class PartOneLineParser(AdventLineParser):
+  def parse_line(self, line):
+    passport = Passport(line)
+    is_valid = passport.is_valid()
+    return 1 if is_valid else 0
+
+#-------------------------------------------------------------------------------
+# Part #2: LineParser Subclass
+#-------------------------------------------------------------------------------
+class PartTwoLineParser(AdventLineParser):
+
+  def parse_line(self, line):
+    passport = Passport(line)
+    is_valid = passport.is_valid()
+    return 1 if is_valid else 0
+
+#-------------------------------------------------------------------------------
 # MAIN()
 #-------------------------------------------------------------------------------
 def main():
-  passports = read_passports(INPUT_FILE)
-  valid_count = 0
-  for p in passports:
-  #  print(p)
-    if p.is_valid():
-      valid_count += 1
-  print(valid_count)
+  ERROR_MSG = "You must provide part# to run AND input file: <1|2> <input_file>"
+
+  if len(sys.argv) != 3:
+    print(ERROR_MSG)
+    sys.exit(1)
+
+  part_to_run = sys.argv[1]
+  if part_to_run != "1" and part_to_run != "2":
+    print(ERROR_MSG)
+    sys.exit(1)
+
+  input_file = sys.argv[2]
+  part_parser = PartOneLineParser() if part_to_run == "1" else PartTwoLineParser()
+
+  input_parser = AdventInputFileParser(part_parser, AdventInputFileParser.MULTI_LINE_PER_OBJ)
+  parsed_objs = input_parser.parse_file(input_file)
+
+  summarizer = AdventParsedLineSummarizer()
+  final_count = summarizer.get_total(parsed_objs)
+  print(f"\nFINAL Count: [{final_count}]")
+
 
 if __name__ == '__main__':
   main()
+
