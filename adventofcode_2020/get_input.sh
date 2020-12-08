@@ -22,7 +22,12 @@ if [ ! -f ${SESSION_COOKIE_FILE} ]; then
 fi
 
 URL=https://adventofcode.com/2020/day/${NUM}/input
-OUTPUT_FILE=${NUM}.in
+
+OUTPUT_DIR=day${NUM}
+if [ ! -d $OUTPUT_DIR} ]; then
+  mkdir $OUTPUT_DIR
+fi
+OUTPUT_FILE=$OUTPUT_DIR/unique.in
 SESSION_COOKIE_HEADER="Cookie: ${SESSION_COOKIE_NAME}=$(cat ${SESSION_COOKIE_FILE})"
 
 #-------------------------------------------------------------------------------
