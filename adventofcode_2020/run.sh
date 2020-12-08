@@ -5,6 +5,8 @@ UNIQUE_BASE_FILENAME=unique
 INPUT_FILE_SUFFIX=in
 ANSWER_FILE_SUFFIX=ans
 
+SCRIPT_DIR=$(dirname $(readlink -f $0))
+
 usage() {
   cat<<EOF
 
@@ -19,6 +21,7 @@ OPTIONS
 	    Run script against '$UNIQUE_INPUT_FILENAME'
 EOF
 }
+
 
 DAY_NUM=$1
 if [ -z "$DAY_NUM" ]; then
@@ -44,7 +47,7 @@ fi
 INPUT_FILE=${BASE_FILENAME}.${INPUT_FILE_SUFFIX}
 ANSWER_FILE=${BASE_FILENAME}.part${PART_NUM}.${ANSWER_FILE_SUFFIX}
 
-WORKDIR=day${DAY_NUM}
+WORKDIR=$SCRIPT_DIR/day${DAY_NUM}
 cd $WORKDIR
 
 export PYTHONPATH=../
