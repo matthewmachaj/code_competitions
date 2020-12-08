@@ -36,6 +36,7 @@ class AdventInputFileParser:
           else:
             parsed_objects.append(self.line_parser.parse_line(line_data))
             line_data = ""
+        parsed_objects.append(self.line_parser.parse_line(line_data))
 
     return parsed_objects
 
