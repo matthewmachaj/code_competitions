@@ -2,9 +2,6 @@
 
 import sys
 
-INPUT_FILE = '5.in.test'
-INPUT_FILE = '5.in'
-
 def LOG(msg, level="INFO"):
   print(msg)
 
@@ -27,12 +24,23 @@ def process_line(line):
 
   return (row * 8) + col
 
-
 #-------------------------------------------------------------------------------
 # MAIN()
 #-------------------------------------------------------------------------------
 def main():
-  input = read_input(INPUT_FILE)
+  # ERROR_MSG = "You must provide part# to run AND input file: <1|2> <input_file>"
+
+  # if len(sys.argv) != 3:
+    # print(ERROR_MSG)
+    # sys.exit(1)
+
+  # part_to_run = sys.argv[1]
+  # if part_to_run != "1" and part_to_run != "2":
+    # print(ERROR_MSG)
+    # sys.exit(1)
+
+  input_file = sys.argv[2]
+  input = read_input(input_file)
   results = []
 
   for line in input:
@@ -51,5 +59,6 @@ def main():
     else:
       last = curr
       continue
+
 if __name__ == '__main__':
   main()
