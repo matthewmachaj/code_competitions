@@ -24,7 +24,7 @@ fi
 URL=https://adventofcode.com/2020/day/${NUM}/input
 
 OUTPUT_DIR=day${NUM}
-if [ ! -d $OUTPUT_DIR} ]; then
+if [ ! -d $OUTPUT_DIR ]; then
   mkdir $OUTPUT_DIR
 fi
 OUTPUT_FILE=$OUTPUT_DIR/unique.in
