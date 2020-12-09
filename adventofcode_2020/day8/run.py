@@ -9,7 +9,7 @@ from advent import AdventLineParser
 from advent import AdventLogger
 from advent import AdventParsedLineSummarizer
 
-LOG_LEVEL = "DEBUG"
+LOG_LEVEL = "WARN"
 logger = AdventLogger(LOG_LEVEL)
 
 #-------------------------------------------------------------------------------
@@ -21,19 +21,9 @@ class Accumulator():
   JMP = 200
   NOP = 300
 
-  def __init__(self, input_file):
-    self.input_file = input_file
-
-  def load_commands(self):
-    cmds = []
-    with open(self.input_file) as input:
-      cmds = input.readlines()
-    return cmds
-
-  def run(self):
+  def run(self, cmds):
     INSTRUCTION_PTR = 0
     ACCUMULATOR = 0
-    cmds = self.load_commands()
 
     while True:
       curr_cmd = cmds[INSTRUCTION_PTR]
@@ -44,7 +34,7 @@ class Accumulator():
         return ACCUMULATOR
 
       (op, arg) = self.parse_cmd(curr_cmd)
-      print(f"PARSED: [{op}, {arg}]")
+      logger.log(f"PARSED: [{op}, {arg}]")
       logger.log(f"INSTRUCTION_PTR = {INSTRUCTION_PTR}")
       logger.log(f"ACCUMULATOR = {ACCUMULATOR}")
       logger.log("\n")
@@ -81,6 +71,12 @@ class Accumulator():
 #-------------------------------------------------------------------------------
 # MAIN()
 #-------------------------------------------------------------------------------
+def load_commands(input_file):
+  cmds = []
+  with open(input_file) as input:
+    cmds = input.readlines()
+  return cmds
+
 def main():
   ERROR_MSG = "You must provide part# to run AND input file: <1|2> <input_file>"
 
@@ -94,8 +90,10 @@ def main():
     sys.exit(1)
 
   INPUT_FILE = sys.argv[2]
-  PART_PARSER = Accumulator(INPUT_FILE)
-  PART_PARSER.run()
+
+  accumulator = Accumulator()
+  result = accumulator.run(load_commands(INPUT_FILE))
+  print(f"RESULT: [{result}]")
 
 
 if __name__ == '__main__':
