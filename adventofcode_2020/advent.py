@@ -3,6 +3,30 @@
 def LOG(msg):
   print(msg)
 
+# Basic roll-your-own Logger
+class AdventLogger:
+  def __init__(self, level):
+    self.level = level
+
+  def log(self, msg, level="DEBUG"):
+    LOG_LEVEL = self.level
+
+    if LOG_LEVEL == "ERROR":
+      if level == "ERROR":
+        print(msg)
+
+    if LOG_LEVEL == "WARN":
+      if level == "ERROR" or level == "WARN":
+        print(msg)
+
+    if LOG_LEVEL == "INFO":
+      if level == "ERROR" or level == "WARN" or level == "INFO":
+        print(msg)
+
+    if LOG_LEVEL == "DEBUG":
+      if level == "ERROR" or level == "WARN" or level == "INFO" or level == "DEBUG":
+        print(msg)
+
 #-------------------------------------------------------------------------------
 # Input File Parser:
 #
